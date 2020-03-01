@@ -1,3 +1,5 @@
+
+
 package com.automation.tests.day3;
 
 import com.automation.utilities.ConfigurationReader;
@@ -43,16 +45,58 @@ public class ORDSTestsDay3 {
     //query parameter - to filter results, or describe new resource :
     // POST /users?name=James&age=60&job-title=SDET
     //or to filter GET /employee?name=Jamal get all employees with name Jamal
-
-
     @Test
-    public void test2(){
+    public void test2() {
         given().
                 accept("application/json").
-                pathParam("id",100).
+                pathParam("id", 100).
                 when().get("/employees/{id}").
                 then().assertThat().statusCode(200).
-                and().assertThat().body("employee_id",is(100)).
+                and().assertThat().body("employee_id", is(100),
+                "department_id", is(90),
+                "last_name", is("King")).
                 log().all(true);
+        //body ("phone_number") --> 515.123.4567
+        //is is coming from ---> import static org.hamcrest.Matchers.*;
+        //log().all  Logs everything in the response, including e.g. headers,
+        // cookies, body with the option to pretty-print the body if the content-type is
+    }
+
+    /**
+     * given path parameter is "/regions/{id}"
+     * when user makes get request
+     * and region id is equals to 1
+     * then assert that status code is 200
+     * and assert that region name is Europe
+     */
+
+    @Test
+    public void test3() {
+        given().
+                accept("application/json").
+                pathParam("id", 1).
+                when().
+                get("/regions/{id}").
+                then().
+                assertThat().statusCode(200).
+                assertThat().body("region_name", is("Europe")).
+                time(lessThan(10L), TimeUnit.SECONDS).
+                log().body(true);//log body in pretty format. all = header + body + status code
+
+        //verify that response time is less than 10 seconds
+    }
+
+    @Test
+    public void test4() {
+        JsonPath json = given().
+                accept("application/json").
+                when().
+                get("/employees").
+                thenReturn().jsonPath();
+
+        //items[employee1, employee2, employee3] | items[0] = employee1.first_name = Steven
+
+        String nameOfFirstEmployee = json.getString("items[0].first_name");
+        System.out.println("First employee name: "+nameOfFirstEmployee);
     }
 }
