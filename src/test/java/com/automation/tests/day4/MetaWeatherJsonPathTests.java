@@ -80,7 +80,7 @@ public class MetaWeatherJsonPathTests {
     @Test
     @DisplayName("Verifies that 1st city has following info:New York, City, 2459115, 40.71455,-74.007118")
     public void test2_2() {
-        Map<String,String> expected = new HashMap<>();
+        Map<String, String> expected = new HashMap<>();
         expected.put("title", "New York");
         expected.put("location_type", "City");
         expected.put("woeid", "2459115");
@@ -97,7 +97,7 @@ public class MetaWeatherJsonPathTests {
         //for first title, title[0], but for first object, we can say just [0]
         //if one object is a key=value pair like map, collection of this objects can be represented as list of map
         List<Map<String, ?>> values = jsonPath.get();
-        for(Map<String, ?> value: values){
+        for (Map<String, ?> value : values) {
             System.out.println(value);
         }
     }
@@ -112,7 +112,7 @@ public class MetaWeatherJsonPathTests {
      * |Las Vegas|*/
 
     @Test
-    public void test3(){
+    public void test3() {
         given().
                 accept(ContentType.JSON).
                 queryParam("query", "Las").
@@ -130,7 +130,7 @@ public class MetaWeatherJsonPathTests {
 //            * Then verify that every item in payload has location_type City
     @Test
     @DisplayName("Verify that every item in payload has location_type City")
-    public void test4(){
+    public void test4() {
         given().
                 accept(ContentType.JSON).
                 queryParam("query", "Las").
@@ -141,12 +141,28 @@ public class MetaWeatherJsonPathTests {
 
     }
 
+/**
+                    *TASK 5
+ * Given accept type is JSON
+ * When users sends a GET request to "/location"
+ * And path parameter is '44418'
+ * Then verify following that payload contains weather forecast sources
+ * |BBC                 |
+ * |Forecast.io         |
+ * |HAMweather          |
+ * |Met Office          |
+ * |OpenWeatherMap      |
+ * |Weather Underground |
+ * |World Weather Online|
+ *
+ */
+
     @Test
     @DisplayName("Verify following that payload contains weather forecast sources")
     public void test5(){
         List<String> expected = Arrays.asList("BBC","Forecast.io","HAMweather","Met Office",
-                "OpenWeatherMap","Weather Underground",
-                "World Weather Online");
+                                              "OpenWeatherMap","Weather Underground",
+                                              "World Weather Online");
         Response response =   given().
                 accept(ContentType.JSON).
                 pathParam("woeid", 44418).
@@ -155,10 +171,12 @@ public class MetaWeatherJsonPathTests {
 
         List<String> actual = response.jsonPath().getList("sources.title");
 
-        assertEquals(expected, actual);
+          assertEquals(expected,actual);
+    }
+}
 
 //        Break till 11:15
-    }
+
 //
 //            * Given accept type is JSON
 //            * When users sends a GET request to "/location/{woid}"
@@ -172,7 +190,7 @@ public class MetaWeatherJsonPathTests {
 //            * |Weather Underground |
 //            * |World Weather Online|
 
-}
+
 /**
  * <p>
  * TASK
