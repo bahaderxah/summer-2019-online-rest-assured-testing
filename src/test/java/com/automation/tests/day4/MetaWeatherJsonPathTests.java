@@ -128,6 +128,7 @@ public class MetaWeatherJsonPathTests {
     //* When users sends a GET request to "/search"
 //            * And query parameter is 'Las'
 //            * Then verify that every item in payload has location_type City
+
     @Test
     @DisplayName("Verify that every item in payload has location_type City")
     public void test4() {
