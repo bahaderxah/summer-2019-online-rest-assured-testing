@@ -34,6 +34,12 @@ public class OMDBTestsAPIKey {
     @Test
     @DisplayName("Verify that unauthorized user cannot get info about movies from OMDB api")
     public void test1() {
-
+        given().
+                contentType(ContentType.JSON).
+                queryParam("t", "Home Alone").
+                when().
+                get().prettyPeek().
+                then().assertThat().statusCode(401).body("Error", is("No API key provided."));
+        //401 Unauthorized - you are not allowed to access this web service
     }
-    }
+}
