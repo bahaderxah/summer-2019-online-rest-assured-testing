@@ -349,7 +349,7 @@ public class SpartanTests {
         response.prettyPrint();
         //POST - add new spartan
         //PUT - update existing one, but you have to specify all properties
-        //PATCH - update existing one, but ypu may specify one or more properties to update
+        //PATCH - update existing one, but you may specify one or more properties to update
 
 
     }
