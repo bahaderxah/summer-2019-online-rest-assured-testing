@@ -39,7 +39,8 @@ public class OMDBTestsAPIKey {
                 queryParam("t", "Home Alone").
                 when().
                 get().prettyPeek().
-                then().assertThat().statusCode(401).body("Error", is("No API key provided."));
+                then().assertThat().statusCode(401).body("Response",is ("False")).
+                body("Error", is("No API key provided."));
         //401 Unauthorized - you are not allowed to access this web service
     }
 }
