@@ -1,5 +1,6 @@
 
 package com.automation.tests.day8;
+
 import com.automation.pojos.Spartan;
 import com.github.javafaker.Faker;
 import org.junit.jupiter.api.BeforeAll;
