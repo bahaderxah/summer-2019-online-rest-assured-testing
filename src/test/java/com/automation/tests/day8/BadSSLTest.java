@@ -43,4 +43,17 @@ public class BadSSLTest {
         Response response = get().prettyPeek();
         System.out.println(response.statusCode());
     }
+    @Test
+    @DisplayName("Access web site with bad SSL (solution)")
+    public void test2(){
+        //.relaxedHTTPSValidation() - ignores SSL issues
+        // * Use relaxed HTTP validation with SSLContext protocol SSL.
+        // This means that you'll trust all hosts regardless if the SSL certificate is invalid.
+        Response response = given().relaxedHTTPSValidation().get().prettyPeek();
+
+        System.out.println(response.statusCode());
+
+        assertEquals(200, response.getStatusCode());
+
+    }
 }
