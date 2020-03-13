@@ -43,4 +43,27 @@ public class OMDBTestsAPIKey {
                 body("Error", is("No API key provided."));
         //401 Unauthorized - you are not allowed to access this web service
     }
-}
+    @Test
+    @DisplayName("Verify that Macaulay Culkin appears in actors list for Home Alone movie")
+    public void test2(){
+        Response response = given().
+                contentType(ContentType.JSON).
+                queryParam("t", "Home Alone").
+                queryParam("apikey", "9f94d4d0").
+                when().
+                get().prettyPeek();
+
+        response.then().assertThat().statusCode(200).body("Actors", containsString("Macaulay Culkin"));
+
+        Map<String, Object> payload = response.getBody().as(Map.class);
+
+        System.out.println(payload);
+
+        //entry - key=value pair
+        //map it's a collection of entries
+        //how to iterate a map?
+        for(Map.Entry<String, Object> entry: payload.entrySet()){
+            System.out.println("Key: "+entry.getKey()+", value: "+entry.getValue());
+        }
+    }
+    }
