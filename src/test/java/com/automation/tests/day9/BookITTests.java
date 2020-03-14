@@ -1,6 +1,6 @@
 package com.automation.tests.day9;
 
-
+import com.automation.pojos.Room;
 import com.automation.pojos.Spartan;
 import com.automation.utilities.APIUtilities;
 
@@ -68,7 +68,7 @@ public class BookITTests {
         //same procedure: you need to provide token
         //since bearer token was originally created for oauth 2.0
         //it works in the same way
-        //auth().oauth2()  auth().oauth2("invalid token"). = header("Authorization", "invalid token").
+        //auth().oauth2()
         //500 Server Error - server is in trouble
         given().
                 accept(ContentType.JSON).
@@ -77,6 +77,7 @@ public class BookITTests {
                 get("/api/rooms").prettyPeek().
                 then().assertThat().statusCode(422);
     }
+
     /**
      * given valid bearer token
      * when user performs GET request to "/api/rooms"
@@ -90,4 +91,21 @@ public class BookITTests {
                 when().
                 get("/api/rooms").prettyPeek();
     }
-  }
+
+    @Test
+    @DisplayName("Get all roms and deserialize it into collection of Rooms")
+    public void test4() {
+        //in real work environment, common practice is to authenticate with SSL certificate
+        //you add SSL certificate on your side, with every request
+        //and then you can work with web service
+        Response response = given().auth().oauth2(APIUtilities.getTokenForBookit()).
+                accept(ContentType.JSON).
+                when().
+                get("/api/rooms").prettyPeek();
+        List<Room> rooms = response.jsonPath().getList("", Room.class);
+
+        for (Room room : rooms) {
+            System.out.println(room.getName());
+        }
+    }
+}
