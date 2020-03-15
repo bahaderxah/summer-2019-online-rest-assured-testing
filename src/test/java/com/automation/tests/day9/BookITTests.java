@@ -389,7 +389,7 @@ public class BookITTests {
                     queryParams(student).
                     when().
                     post("/api/students/student").
-                    then().assertThat().statusCode(201).
+                    then().assertThat().statusCode(422).
                     log().body(true).log().ifError();
         }
         //log body of response
